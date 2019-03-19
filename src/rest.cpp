@@ -3,11 +3,26 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+/******************************************************************************
+ * Copyright © 2014-2019 The SuperNET Developers.                             *
+ *                                                                            *
+ * See the AUTHORS, DEVELOPER-AGREEMENT and LICENSE files at                  *
+ * the top-level directory of this distribution for the individual copyright  *
+ * holder information and the developer policies on copyright and licensing.  *
+ *                                                                            *
+ * Unless otherwise agreed in a custom licensing agreement, no part of the    *
+ * SuperNET software, including this file may be copied, modified, propagated *
+ * or distributed except according to the terms contained in the LICENSE file *
+ *                                                                            *
+ * Removal or modification of this copyright notice is prohibited.            *
+ *                                                                            *
+ ******************************************************************************/
+
 #include "primitives/block.h"
 #include "primitives/transaction.h"
 #include "main.h"
 #include "httpserver.h"
-#include "rpcserver.h"
+#include "rpc/server.h"
 #include "streams.h"
 #include "sync.h"
 #include "txmempool.h"
@@ -48,7 +63,7 @@ struct CCoin {
     ADD_SERIALIZE_METHODS;
 
     template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
+    inline void SerializationOp(Stream& s, Operation ser_action)
     {
         READWRITE(nTxVer);
         READWRITE(nHeight);
@@ -262,6 +277,9 @@ static bool rest_block_notxdetails(HTTPRequest* req, const std::string& strURIPa
 {
     return rest_block(req, strURIPart, false);
 }
+
+// A bit of a hack - dependency on a function defined in rpc/blockchain.cpp
+UniValue getblockchaininfo(const UniValue& params, bool fHelp);
 
 static bool rest_chaininfo(HTTPRequest* req, const std::string& strURIPart)
 {
@@ -530,7 +548,7 @@ static bool rest_getutxos(HTTPRequest* req, const std::string& strURIPart)
         // serialize data
         // use exact same output as mentioned in Bip64
         CDataStream ssGetUTXOResponse(SER_NETWORK, PROTOCOL_VERSION);
-        ssGetUTXOResponse << chainActive.Height() << chainActive.Tip()->GetBlockHash() << bitmap << outs;
+        ssGetUTXOResponse << chainActive.Height() << chainActive.LastTip()->GetBlockHash() << bitmap << outs;
         string ssGetUTXOResponseString = ssGetUTXOResponse.str();
 
         req->WriteHeader("Content-Type", "application/octet-stream");
@@ -540,7 +558,7 @@ static bool rest_getutxos(HTTPRequest* req, const std::string& strURIPart)
 
     case RF_HEX: {
         CDataStream ssGetUTXOResponse(SER_NETWORK, PROTOCOL_VERSION);
-        ssGetUTXOResponse << chainActive.Height() << chainActive.Tip()->GetBlockHash() << bitmap << outs;
+        ssGetUTXOResponse << chainActive.Height() << chainActive.LastTip()->GetBlockHash() << bitmap << outs;
         string strHex = HexStr(ssGetUTXOResponse.begin(), ssGetUTXOResponse.end()) + "\n";
 
         req->WriteHeader("Content-Type", "text/plain");
@@ -554,7 +572,7 @@ static bool rest_getutxos(HTTPRequest* req, const std::string& strURIPart)
         // pack in some essentials
         // use more or less the same output as mentioned in Bip64
         objGetUTXOResponse.push_back(Pair("chainHeight", chainActive.Height()));
-        objGetUTXOResponse.push_back(Pair("chaintipHash", chainActive.Tip()->GetBlockHash().GetHex()));
+        objGetUTXOResponse.push_back(Pair("chaintipHash", chainActive.LastTip()->GetBlockHash().GetHex()));
         objGetUTXOResponse.push_back(Pair("bitmap", bitmapStringRepresentation));
 
         UniValue utxos(UniValue::VARR);
