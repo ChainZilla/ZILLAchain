@@ -16,9 +16,7 @@ A utility token represents access to a future product or service. When you buy a
 ZILLA token holders are able to exchange their tokens for ChainZilla services such as Komodo notarizations, blockchain deployment, app & web development, and cyber security services. In addition we plan to establish strong governance over our operations, token holders will be able to participate in community votes when ChainZilla deems appropriate.
 
 ## ZILLA Mainnet Tech Specification
-=======
-[![Build Status](https://travis-ci.org/KomodoPlatform/komodo.svg?branch=dev)](https://travis-ci.org/KomodoPlatform/komodo)
----
+
 ![Komodo Logo](https://i.imgur.com/vIwVtqv.png "Komodo Logo")
 
 
