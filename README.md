@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Zilla-Chain
 ## Specifications and uses of the ZILLA Utility Chain
 
@@ -93,7 +93,7 @@ Komodo is based on Zcash and has been extended by our innovative consensus algor
 
 ChainZilla was conceived with the purpose of raising the bar in terms of the quality of the applications and blockchains being used in the industry. Additionally, our goal is to facilitate the use of open source technology such as atomic swaps, native blockchain deployment, and smart contracts in different sectors. These fields includes real estate, finance, non-profit, and academic. Corporations are dedicating resources to find out how much business they can gain by adopting blockchain technology. Blockchain has the potential of a trans-formative technology. It allows solving two important issues, those of centralized trust and the speed of operations. Blockchain will not remain a purely fintech phenomenon and has set itself up for wider B2B applications in the coming decade. ChainZilla will play a major role in bringing blockchain technology to regions that are still in their infancy in regards to blockchain and fintech technology such as LATAM. 
 ## Getting started
-<<<<<<< HEAD
+
 Dependencies
 ------------
 Install Komodo: https://docs.komodoplatform.com/en/latest/komodo/install-Komodo-manually.html#installing-komodo-manually
@@ -310,7 +310,7 @@ cd komodo
 # This can take some time.
 ```
 
-<<<<<<< HEAD
+
 **Komodo is unfinished and highly experimental, use at your own risk.**
 
 
@@ -375,7 +375,7 @@ Setup two independent servers with at least 1 server having a static IP and buil
 ```
 
 **Komodo is based on Zcash which is unfinished and highly experimental.** Use at your own risk.
->>>>>>> upstream/master
+
 
 **NOTE TO EXCHANGES:**
 https://bitcointalk.org/index.php?topic=1605144.msg17732151#msg17732151
@@ -399,7 +399,7 @@ mv ~/.komodo ~/.komodo.old && mkdir ~/.komodo && cp ~/.komodo.old/komodo.conf ~/
 ```
 ---
 
-<<<<<<< HEAD
+
 License
 -------
 For license information see the file [COPYING](COPYING).
