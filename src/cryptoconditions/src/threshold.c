@@ -1,3 +1,17 @@
+/******************************************************************************
+ * Copyright © 2014-2019 The SuperNET Developers.                             *
+ *                                                                            *
+ * See the AUTHORS, DEVELOPER-AGREEMENT and LICENSE files at                  *
+ * the top-level directory of this distribution for the individual copyright  *
+ * holder information and the developer policies on copyright and licensing.  *
+ *                                                                            *
+ * Unless otherwise agreed in a custom licensing agreement, no part of the    *
+ * SuperNET software, including this file may be copied, modified, propagated *
+ * or distributed except according to the terms contained in the LICENSE file *
+ *                                                                            *
+ * Removal or modification of this copyright notice is prohibited.            *
+ *                                                                            *
+ ******************************************************************************/
 
 #include "asn/Condition.h"
 #include "asn/Fulfillment.h"
@@ -21,8 +35,16 @@ static uint32_t thresholdSubtypes(const CC *cond) {
 }
 
 
-static int cmpCostDesc(const void *a, const void *b) {
-    return (int) ( *(unsigned long*)b - *(unsigned long*)a );
+static int cmpCostDesc(const void *a, const void *b)
+{
+    int retval;
+    retval = (int) ( *(unsigned long*)b - *(unsigned long*)a );
+    return(retval);
+    /*if ( retval != 0 )
+        return(retval);
+    else if ( (uint64_t)a < (uint64_t)b ) // jl777 prevent nondeterminism
+        return(-1);
+    else return(1);*/
 }
 
 
@@ -65,13 +87,17 @@ static int cmpConditionBin(const void *a, const void *b) {
 
     if (ret == 0)
         return r0.encoded < r1.encoded ? -1 : 1;
-    return 0;
+    //else if ( (uint64_t)a < (uint64_t)b ) // jl777 prevent nondeterminism
+    //    return(-1);
+    //else return(1);
+    return(0);
 }
 
 
 static unsigned char *thresholdFingerprint(const CC *cond) {
     /* Create fingerprint */
     ThresholdFingerprintContents_t *fp = calloc(1, sizeof(ThresholdFingerprintContents_t));
+    //fprintf(stderr,"thresholdfinger %p\n",fp);
     fp->threshold = cond->threshold;
     for (int i=0; i<cond->size; i++) {
         Condition_t *asnCond = asnConditionNew(cond->subconditions[i]);

@@ -1,12 +1,29 @@
+/******************************************************************************
+ * Copyright © 2014-2019 The SuperNET Developers.                             *
+ *                                                                            *
+ * See the AUTHORS, DEVELOPER-AGREEMENT and LICENSE files at                  *
+ * the top-level directory of this distribution for the individual copyright  *
+ * holder information and the developer policies on copyright and licensing.  *
+ *                                                                            *
+ * Unless otherwise agreed in a custom licensing agreement, no part of the    *
+ * SuperNET software, including this file may be copied, modified, propagated *
+ * or distributed except according to the terms contained in the LICENSE file *
+ *                                                                            *
+ * Removal or modification of this copyright notice is prohibited.            *
+ *                                                                            *
+ ******************************************************************************/
+
 #ifndef SCRIPT_CC_H
 #define SCRIPT_CC_H
+
+#include <memory>
 
 #include "pubkey.h"
 #include "script/script.h"
 #include "cryptoconditions/include/cryptoconditions.h"
 
 
-extern int32_t ASSETCHAINS_CC;
+extern uint32_t ASSETCHAINS_CC;
 bool IsCryptoConditionsEnabled();
 
 // Limit acceptable condition types
@@ -55,6 +72,12 @@ CScript CCPubKey(const CC *cond);
  */
 CScript CCSig(const CC *cond);
 
+/*
+ * Turn a condition into a scriptSig
+ *
+ * Note: This will fail in undefined ways if the condition is missing signatures
+ */
+std::vector<unsigned char> CCSigVec(const CC *cond);
 
 /*
  * Produces a string showing the structure of a CC condition
@@ -78,6 +101,5 @@ bool GetPushData(const CScript &sig, std::vector<unsigned char> &data);
  * Get OP_RETURN data from a script
  */
 bool GetOpReturnData(const CScript &sig, std::vector<unsigned char> &data);
-
 
 #endif /* SCRIPT_CC_H */

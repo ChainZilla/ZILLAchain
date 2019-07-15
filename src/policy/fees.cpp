@@ -3,6 +3,21 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+/******************************************************************************
+ * Copyright © 2014-2019 The SuperNET Developers.                             *
+ *                                                                            *
+ * See the AUTHORS, DEVELOPER-AGREEMENT and LICENSE files at                  *
+ * the top-level directory of this distribution for the individual copyright  *
+ * holder information and the developer policies on copyright and licensing.  *
+ *                                                                            *
+ * Unless otherwise agreed in a custom licensing agreement, no part of the    *
+ * SuperNET software, including this file may be copied, modified, propagated *
+ * or distributed except according to the terms contained in the LICENSE file *
+ *                                                                            *
+ * Removal or modification of this copyright notice is prohibited.            *
+ *                                                                            *
+ ******************************************************************************/
+
 #include "policy/fees.h"
 
 #include "amount.h"
@@ -53,13 +68,13 @@ void TxConfirmStats::ClearCurrent(unsigned int nBlockHeight)
 
 unsigned int TxConfirmStats::FindBucketIndex(double val)
 {
-    extern char ASSETCHAINS_SYMBOL[];
+    extern char ASSETCHAINS_SYMBOL[KOMODO_ASSETCHAIN_MAXLEN];
     auto it = bucketMap.lower_bound(val);
     if ( it != bucketMap.end() )
     {
-        static uint32_t counter;
-        if ( counter++ < 1 )
-            fprintf(stderr,"%s FindBucketIndex violation: from val %f\n",ASSETCHAINS_SYMBOL,val);
+        //static uint32_t counter;
+        //if ( counter++ < 1 )
+        //    fprintf(stderr,"%s FindBucketIndex violation: from val %f\n",ASSETCHAINS_SYMBOL,val);
     }
     return it->second;
 }
